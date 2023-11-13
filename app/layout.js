@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google'
-import './globals.css'
-
+import './globals.css';
+import Sidebar from '../app/components/sidebar';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -11,7 +11,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <main className=" " >
+        <div className='text-white text-xl bg-primary-500 text-start h-[5vh] align-middle'><h2 className='ml-4 text-start py-1'  >ChatWave</h2></div>
+         {children}
+        </main>
+        </body>
     </html>
   )
 }
