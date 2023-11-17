@@ -1,107 +1,144 @@
-// components/Chat.js
 'use client'
-import './../globals.css';
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import { useSession } from 'next-auth/react';
 
-const Chat = () => {
+const Chat = ({ reciver }) => {
+  const { data: session } = useSession();
   const [messages, setMessages] = useState([]);
-  const isClient = typeof window !== 'undefined';
+  const [chats, setChats] = useState([]);
+  const [user, setUsers] = useState();
   const [input, setInput] = useState('');
-  const [userId, setUserId] = useState(
-    isClient ? localStorage.getItem('userId') || '' : ''
-  );
-  const [username, setUsername] = useState('');
 
   const socket = io('http://localhost:5000', {
     transports: ['websocket'],
   });
+  const sendername = session?.user?.name;
+  const senderid = user?._id
 
+  const reciverid = reciver?._id
   useEffect(() => {
-    const fetchUsername = () => {
-      const storedUsername = localStorage.getItem('username');
-      if (storedUsername) {
-        setUsername(storedUsername);
-      } else {
-        const usernameInput = prompt('Please enter your name:');
-        if (usernameInput) {
-          setUsername(usernameInput);
-          localStorage.setItem('username', usernameInput);
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/fetchmessages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            senderId: senderid,
+            reciverId: reciverid,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
+        const initialMessages = await response.json();
+        setChats(initialMessages)
+      } catch (error) {
+        console.error('Error fetching initial messages:', error);
+      }
+      try {
+        const response = await fetch('/api/sender', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: session?.user?.email }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const userData = await response.json();
+
+        setUsers(userData.user);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
       }
     };
 
-    const fetchUserId = () => {
-      const storedUserId = localStorage.getItem('userId');
-      if (storedUserId) {
-        setUserId(storedUserId);
-      } else {
-        const newUserId = generateUserId();
-        setUserId(newUserId);
-        localStorage.setItem('userId', newUserId);
-      }
-    };
 
-    fetchUsername();
-    fetchUserId();
+    if (user) {
+      socket.emit('user-connected', user._id, sendername);
+    }
 
-    socket.emit('user-connected', userId, username);
-
-    socket.on('message', (message) => {
+    socket.on('message', async (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
-
+    fetchData();
     return () => {
-      socket.disconnect();
+      // Check if component is still mounted before disconnecting socket
+      if (socket.connected) {
+        socket.disconnect();
+      }
     };
-  }, [socket, userId, username]);
+  }, [socket, senderid, sendername, session]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      const res = await fetch('http://localhost:3000/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: input,
+          senderId: senderid,
+          username: sendername,
+          reciverId: reciverid
+        }
+        ),
+      });
 
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
     const newMessage = {
       text: input,
-      senderId: userId,
-      username: username,
+      senderId: senderid,
+      username: sendername,
+      reciverId: reciverid
     };
 
     socket.emit('message', newMessage);
     setMessages((prevMessages) => [...prevMessages, newMessage]);
-
     setInput('');
   };
 
-  const handleInputChange = (event) => {
+  const handleInputChange = async (event) => {
     setInput(event.target.value);
-  };
-
-  const generateUserId = () => {
-    return Math.random().toString(36).substring(7);
-  };
+  }
 
   return (
-    <div className='h-[95vh] flex flex-col'>
+    <div className='h-[90vh] flex flex-col'>
       <div className='flex-1  overflow-y-auto w-[100%]  '>
-        {messages.map((message, index) => (
-          <div className={`${
-              message.senderId === userId ? 'block float-right w-[100%]' : ' block float-left w-[100%]'
-            }`}
-            >
+        {chats.map((message, index) => (
           <div
             key={index}
-            className={`mb-4  max-w-xs mx-auto p-2 rounded-lg  ${
-              message.senderId === userId ? 'sender-chat-bubble chatBubble' : ' receiver-chat-bubble chatBubble'
-            }`}
+            className={`${message.senderId === senderid ? 'block float-right w-[100%]' : ' block float-left w-[100%]'
+              }`}
           >
-            {message.senderId !== userId && (
-              <span className='text-xs'>{message.username}</span>
-            )}
-            <p className='mt-1'>{message.text}</p>
-          </div>
+            <div
+              className={`mb-4  max-w-xs mx-auto p-2 rounded-lg  ${message.senderId === senderid ? 'sender-chat-bubble chatBubble' : ' receiver-chat-bubble chatBubble'
+                }`}
+            >
+              {message.senderId !== senderid && (
+                <span className='text-xs'>{message.username}</span>
+              )}
+              <p className='mt-1'>{message.text}</p>
+            </div>
           </div>
         ))}
       </div>
-      <div className='p-4'>
+      <div className='p-2'>
         <form onSubmit={handleSubmit} className='flex'>
           <input
             type='text'

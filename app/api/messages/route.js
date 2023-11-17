@@ -1,24 +1,17 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase, saveMessage } from "@/app/controllers/messageController";
-
+import { connectMongoDB } from "@/app/lib/db";
+import Message from "@/app/models/messages";
 export async function POST(req) {
 try {
-  const message = await req.json();
+  const {text,username,senderId,reciverId} = await req.json();
+  await connectMongoDB();
+
+  const message = await Message.create({text,senderId,username,reciverId});
   console.log(message);
-  await connectToDatabase()
-  const newMessage = {
-    text: "Hello world",
-    senderId: "123",  
-    username: "user123",
-  };
-  await saveMessage(newMessage)
-  
-  
   return NextResponse.json({ message: message }, { status: 201 });
 
 } catch (error) {
   return NextResponse.json({ message: "error occures" }, { status:500 });
   
 }
-  
 }
