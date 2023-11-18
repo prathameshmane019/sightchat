@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useSession } from 'next-auth/react';
-
+import '../globals.css';
 const Chat = ({ reciver }) => {
   const { data: session } = useSession();
   const [messages, setMessages] = useState([]);
@@ -118,7 +118,7 @@ const Chat = ({ reciver }) => {
   }
 
   return (
-    <div className='h-[90vh] flex flex-col'>
+    <div className='h-[90vh] flex flex-col bg-chat'>
       <div className='flex-1  overflow-y-auto w-[100%]  '>
         {chats.map((message, index) => (
           <div

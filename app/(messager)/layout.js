@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
             <div className="w-[3vw] bg-violet-500" >
               <Sidebar />
             </div>
-            <div className=" ml-[23vw] w-[75vw]  bg-slate-300 ">{children}</div>
+            <div className=" ml-[23vw] w-[75vw] bg-home ">{children}</div>
           </div>
   
   )

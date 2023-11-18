@@ -63,3 +63,13 @@
   border-radius: 0 10px 10px  20px ;
   float: left;
 }
+.bg-home{
+  background-image: url("../public/home.jpeg");
+  background-size: "cover";
+}
+.bg-chat{
+  background-image: url("../public/bg.jpg");
+  background-size: "cover";
+  height: 93vh;
+  width: 74vw;
+}

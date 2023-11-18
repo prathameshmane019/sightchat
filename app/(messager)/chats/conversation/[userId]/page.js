@@ -19,7 +19,6 @@ const YourComponent = ({ params }) => {
     // Fetch all users from the database
         const {user} = await response.json();
         setData(user)
-        console.log(data);
         if (response.ok) {
         } else {
           console.error('Error fetching data:', result.message);

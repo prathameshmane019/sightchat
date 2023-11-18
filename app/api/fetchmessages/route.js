@@ -7,7 +7,7 @@ export async function POST(req) {
   try {
     await connectMongoDB();
     const { senderId,reciverId } = await req.json();
-    const messages = await Message.find({ "reciverId": reciverId });
+    const messages = await Message.find({ "reciverId": reciverId,"reciverId":reciverId });
 
     return NextResponse.json( messages );  // Corrected the syntax
   } catch (error) {
