@@ -1,7 +1,7 @@
 import { Avatar, AvatarIcon } from "@nextui-org/react";
 export default function App({ user }) {
   return (
-    <div className="h-[7vh]  w-[74vw]  flex bg-white ">
+    <div className="h-[7vh] py-1 w-[74vw]  flex bg-white">
       <div className="ml-3 "><Avatar
         icon={<AvatarIcon />}
         classNames={{

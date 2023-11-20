@@ -3,75 +3,30 @@ import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useSession } from 'next-auth/react';
 import '../globals.css';
-const Chat = ({ reciver }) => {
-  const { data: session } = useSession();
+const Chat = ({ reciver,chats,sender }) => {
   const [messages, setMessages] = useState([]);
-  const [chats, setChats] = useState([]);
-  const [user, setUsers] = useState();
+  const { data: session } = useSession();
   const [input, setInput] = useState('');
-
   const socket = io('http://localhost:5000', {
     transports: ['websocket'],
   });
-  const sendername = session?.user?.name;
-  const senderid = user?._id
-
+  
   const reciverid = reciver?._id
+  const senderid = sender?._id
+  const sendername=sender?.name
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/fetchmessages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            senderId: senderid,
-            reciverId: reciverid,
-          }),
-        });
+   
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const initialMessages = await response.json();
-        setChats(initialMessages)
-      } catch (error) {
-        console.error('Error fetching initial messages:', error);
-      }
-      try {
-        const response = await fetch('/api/sender', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: session?.user?.email }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const userData = await response.json();
-
-        setUsers(userData.user);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-
-    if (user) {
-      socket.emit('user-connected', user._id, sendername);
+    if (sender) {
+      socket.emit('user-connected', senderid, sendername);
     }
 
     socket.on('message', async (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
-    fetchData();
+  
     return () => {
-      // Check if component is still mounted before disconnecting socket
+      
       if (socket.connected) {
         socket.disconnect();
       }

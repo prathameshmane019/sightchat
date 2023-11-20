@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
   socket.on('message', async (messages) => {
     // Emit the message to all connected clients
     io.emit('message', messages);
-
+    console.log(messages);
   });
 
   socket.on('disconnect', () => {

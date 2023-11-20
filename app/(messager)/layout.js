@@ -1,4 +1,3 @@
-import { Inter } from 'next/font/google'
 import '../globals.css';
 import Sidebar from './../../app/components/sidebar';
 
@@ -9,7 +8,7 @@ export default function RootLayout({ children }) {
             <div className="w-[3vw] bg-violet-500" >
               <Sidebar />
             </div>
-            <div className=" ml-[23vw] w-[75vw] bg-home ">{children}</div>
+            <div className=" ml-[23vw] w-[75vw] bg-chat ">{children}</div>
           </div>
   
   )

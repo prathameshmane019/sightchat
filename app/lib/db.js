@@ -7,4 +7,9 @@ export const connectMongoDB = async () => {
   } catch (error) {
     console.log("Error connecting to MongoDB: ", error);
   }
+
 };
+export const closeMongoDB = async () => {
+    await mongoose.close();
+    console.log("DB closed");
+  }

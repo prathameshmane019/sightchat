@@ -1,6 +1,7 @@
 import React from 'react'
 
-const page = ({users}) => {
+const page = () => {
+  
   return (
     <div>
     </div>
