@@ -5,7 +5,7 @@ import Users from './users'
 import { useState, useEffect } from 'react'
 import ProfileSkeleton from './skeletons/user'
 
-export default function ({loggedInUser}) {
+export default function Sidebar({loggedInUser}) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true); // Added loading state
 
