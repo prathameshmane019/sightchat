@@ -12,7 +12,7 @@ export default function Sidebar({loggedInUser}) {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/user');
+        const response = await fetch('/api/user');
         const data = await response.json();
         setUsers(data.users.filter(user => user.email !== loggedInUser.email))
         setLoading(false);
