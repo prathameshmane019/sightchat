@@ -1,6 +1,5 @@
 import React from "react";
 import {Input} from "@nextui-org/react";
-import {SearchIcon} from "./SearchIcon";
 
 export default function SearchBar() {
   return (
