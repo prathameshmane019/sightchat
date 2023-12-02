@@ -1,16 +1,18 @@
 'use client'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Header from './../../../../components/header';
 import Chat from '@/app/components/message';
 import { useSession } from 'next-auth/react';
+import ProfileSkeleton from '@/app/components/skeletons/user';
+
 const YourComponent = ({ params }) => {
   const { data: session } = useSession();
   const [user, setUser] = useState([]);
-  const [data, setData] = useState(null); // Initialize data as null
+  const [data, setData] = useState(null);
   const [chats, setChats] = useState([]);
-  const [loading, setLoading] = useState(true); // Added loading state
   const id = params.userId;
-  const email = session?.user?.email
+  const email = session?.user?.email;
+  const messages = chats
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,72 +29,49 @@ const YourComponent = ({ params }) => {
         }
 
         const { user } = await response.json();
+       
         setData(user);
-        setLoading(false); // Set loading to false after fetching user data
+
       } catch (error) {
         console.error('Error fetching user data:', error);
-        setLoading(false); // Set loading to false on error
+        
       }
+    };
+    if (!data) {
+      fetchData();
+    }
 
-      if (data) {
+    if (data) {
+      
+
+      const fetchSender = async () => {
         try {
-          const response = await fetch('http://localhost:3000/api/fetchmessages', {
+          const response = await fetch('/api/sender', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              senderId: id,
-              reciverId: data._id,
-            }),
+            body: JSON.stringify({ email }),
           });
 
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
-
-          const initialMessages = await response.json();
-          setChats(initialMessages);
+          const userData = await response.json();
+          setUser(userData.user);
         } catch (error) {
-          console.error('Error fetching initial messages:', error);
+          console.error('Error fetching user data:', error);
         }
-      }
-
-      try {
-        const response = await fetch('/api/sender', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify( {email} ),
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const userData = await response.json();
-
-        setUser(userData.user);
-
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-
-    };
-
-    fetchData();
-  }, [id, data]); // Include 'data' in the dependency array
+      };
+      fetchSender();
+    }
+  }, [id, data, email]);
   return (
-    <div>
-      {loading ? (
-        // Render a loading indicator while waiting for data
-        <p>Loading...</p>
-      ) : (
-        <>
-          <Header user={data} />
-          <Chat reciver={data} chats={chats} sender={user} />
-        </>
-      )}
+    <div className=" h-100">
+      <Suspense fallback={<ProfileSkeleton />}>
+        <Header user={data} />
+        <Chat reciver={data} chats={messages} sender={user}  />
+      </Suspense>
     </div>
   );
 };

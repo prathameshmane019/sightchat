@@ -7,7 +7,8 @@ const messageSchema = new Schema(
       required: true,
     },
     senderId: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     username: {
@@ -15,13 +16,17 @@ const messageSchema = new Schema(
       required: true,
     },
     reciverId: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    conversationId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Conversation',
       required: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const Message = models.Message || mongoose.model('Message', messageSchema);

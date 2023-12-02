@@ -4,7 +4,7 @@ import {SearchIcon} from "./SearchIcon";
 
 export default function SearchBar() {
   return (
-    <div  className=" w-full  md:flex-nowrap  mx-4 md:mb-0 ">
+    <div  className=" w-90  md:flex-nowrap  mx-4 md:mb-0 ">
     
     <Input type="search" variant='underlined' label="Search"  />
   </div>
