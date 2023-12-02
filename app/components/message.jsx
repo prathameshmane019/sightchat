@@ -67,7 +67,7 @@ const Chat = ({ reciver, sender }) => {
         socket.disconnect();
       }
     };
-  }, [socket, senderid, sendername, conversationId]);
+  }, [socket,sender, senderid, sendername, conversationId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
