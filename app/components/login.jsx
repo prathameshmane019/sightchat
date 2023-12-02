@@ -72,7 +72,7 @@ const Login = () => {
         </div>
       </form>
       <div className="text-center mt-4">
-        <p>Don't have an account? <span className="text-secondary-500 cursor-pointer" onClick={handleSignup}>Sign Up</span></p>
+        <p>Don<span>&#39;</span>t have an account? <span className="text-secondary-500 cursor-pointer" onClick={handleSignup}>Sign Up</span></p>
       </div>
     </div>
   );
