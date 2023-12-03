@@ -28,7 +28,7 @@ const Home = () => {
         </GlassCard>
 
         <div className="mt-8">
-          <p className="text-lg mb-4">Don &apos;t have an account yet?</p>
+        <p className="text-lg mb-4">Don&apos;t have an account yet?</p>
 
           <GlassCard>
             <div className="flex flex-col items-center">
