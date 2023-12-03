@@ -4,7 +4,7 @@ import ProfileSkeleton from "./skeletons/user";
 export default function App({ user }) {
  
   return (
-    <div className="h-[7vh] py-1 w-[74vw]  flex  bg-secondary-700 bg-opacity-10  backdrop-filter backdrop-blur-sm" >
+    <div className="h-[7vh] py-1   flex  bg-secondary-700 bg-opacity-10  backdrop-filter backdrop-blur-sm" >
       <div className="ml-3 "><Avatar
         icon={<AvatarIcon />}
         classNames={{

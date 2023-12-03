@@ -17,7 +17,6 @@ export async function POST(req) {
         conversation = await Conversation.create({
           participants: [senderId, reciverId],
         });
-        console.log(conversation);
       } catch (error) {
         console.log(error);
       }

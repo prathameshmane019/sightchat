@@ -63,12 +63,3 @@
   border-radius: 0 10px 10px  20px ;
   float: left;
 }
-.bg-home{
-  background-image: url('/chatwave/public/bg.jpg');
-  background-size:cover;
-}
-.bg-chat{
-  background-image: url('/chatwave/public/bg.jpg');
-  background-size: "cover";
-  width: 74vw;
-}

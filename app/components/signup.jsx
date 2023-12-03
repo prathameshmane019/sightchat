@@ -80,7 +80,7 @@ const Signup = () => {
         </div>
       </form>
       <div className='text-center'>
-        <p className='text-white'>
+        <p className=''>
           Already have an account?{' '}
           <Link href="/login" color='primary'>
             Login here

@@ -8,8 +8,9 @@ export async function POST(req) {
     await connectMongoDB();
     const { senderId, reciverId } = await req.json();
 
+
     let conversation = await Conversation.findOne({
-      participants: { $all: [reciverId] },
+      participants: { $all:[reciverId,senderId] },
     });
     const conversationId = conversation?._id;
     const messages = await Message.find({ conversationId });
