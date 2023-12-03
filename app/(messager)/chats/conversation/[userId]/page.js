@@ -67,7 +67,7 @@ const YourComponent = ({ params }) => {
     }
   }, [id, data, email]);
   return (
-    <div className=" h-100 ">
+    <div className="">
       <Suspense fallback={<ProfileSkeleton />}>
         <Header user={data} />
         <Chat reciver={data} chats={messages} sender={user}  />

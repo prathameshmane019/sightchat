@@ -1,25 +1,25 @@
-// Import necessary modules
+'use client'
 import React, { useState, useEffect } from 'react';
 import SearchBar from './search';
 import Users from './users';
 import ProfileSkeleton from './skeletons/user';
-import { useRouter } from 'next/navigation';
-
-// Sidebar component
-export default function Sidebar({ loggedInUser }) {
+export default function Sidebar({ params,loggedInUser }) {
+  const [currentPath,setPath]= useState()
   // Get the router instance
-  const router = useRouter();
-
-  // Use the optional chaining operator (?.) to guard against undefined values
-  const shouldHideSidebar = router?.pathname?.startsWith('/chats/conversation');
 
   // State for users and loading
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const email = loggedInUser?.email;
+  
+  const shouldHideSidebar = currentPath?.startsWith('/chats/conversation');
 
   // Fetch users on component mount
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Get the current URL path
+       setPath(window.location.pathname)
+    } 
     const fetchUsers = async () => {
       try {
         const response = await fetch('/api/user');
@@ -44,7 +44,13 @@ export default function Sidebar({ loggedInUser }) {
       {loading ? (
         <>
           <ProfileSkeleton />
-          {/* (Rest of the skeleton components) */}
+          <ProfileSkeleton />
+          <ProfileSkeleton />
+          <ProfileSkeleton />
+          <ProfileSkeleton />
+          <ProfileSkeleton />
+          <ProfileSkeleton />
+
         </>
       ) : (
         <Users users={users} loggedInUser={loggedInUser} />

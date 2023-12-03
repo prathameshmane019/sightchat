@@ -5,7 +5,7 @@ export default function App({ user }) {
  
   return (
     <div className="h-[7vh] py-1   flex  bg-secondary-700 bg-opacity-10  backdrop-filter backdrop-blur-sm" >
-      <div className="ml-3 "><Avatar
+      <div className="m-3 "><Avatar
         icon={<AvatarIcon />}
         classNames={{
           base: "bg-gradient-to-br from-[#FFB457] to-[#FF705B]",

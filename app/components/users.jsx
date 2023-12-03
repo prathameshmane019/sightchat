@@ -11,7 +11,7 @@ export default function Users({users}) {
   return (
     <div>
       {users.map((user) => (
-        <div key={user._id} className=" h-18 flex items-center bg-indigo-300 mx-4 my-1  p-3 rounded-xl  bg-opacity-20  backdrop-filter backdrop-blur-md" onClick={() => handleUserClick(user._id, user.name)}>
+        <div key={user._id} className=" h-18 flex items-center bg-indigo-300 mx-4 my-1  p-3 rounded-xl  bg-opacity-20  backdrop-filter backdrop-blur-md text-center" onClick={() => handleUserClick(user._id, user.name)}>
           
           <Avatar
             icon={<AvatarIcon />}
