@@ -3,11 +3,9 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from './search';
 import Users from './users';
 import ProfileSkeleton from './skeletons/user';
-export default function Sidebar({ params,loggedInUser }) {
+export default function Sidebar({ loggedInUser }) {
   const [currentPath,setPath]= useState()
-  // Get the router instance
-
-  // State for users and loading
+ 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const email = loggedInUser?.email;
