@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
   }, [email])
 
   return (
-    <div className="flex flex-col h-[100vh] sm:flex-row overflow-y">
+    <div className="flex flex-col h-[100vh] sm:flex-row overflow-y-hidden">
       <div className="flex flex-row-reverse   sm:w-[2vw]   sm:flex-col-reverse p-auto items-center justify-items-center bg-slate-200 dark:bg-gray-950 " >
         <ThemeSwitcher />
         <>

@@ -110,7 +110,7 @@ const Chat = ({ reciver, sender }) => {
   }
 
   return (
-    <div className='h-[87vh] sm:h-[100vh] flex flex-col  ' >
+    <div className='h-[87vh] sm:h-[93vh] flex flex-col  ' >
       <div className='flex-1  overflow-y-auto w-[100%]  '>
         {messages.map((message, index) => (
            <div key={index}>
