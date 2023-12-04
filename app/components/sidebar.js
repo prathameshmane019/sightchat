@@ -36,7 +36,7 @@ export default function Sidebar({ loggedInUser }) {
   return (
     <div className={`${shouldHideSidebar ? 'hidden' : 'flex'} sm:flex w-[100vw] sm:w-[23vw] h-[100vh] flex-col overflow-x-hidden overflow-y-auto bg-slate-100 dark:bg-neutral-900`}>
       <div className='text-xl h-[7vh] bg-secondary-700 flex items-center '>
-        <h2 className='ml-2 text-slate-200'>SightChat</h2>
+        <h2 className='ml-2 p-4 text-slate-200'>SightChat</h2>
       </div> 
       <SearchBar />
       {loading ? (
