@@ -48,6 +48,8 @@ export default function Sidebar({ loggedInUser }) {
           <ProfileSkeleton />
           <ProfileSkeleton />
           <ProfileSkeleton />
+          <ProfileSkeleton />
+          <ProfileSkeleton />
 
         </>
       ) : (
